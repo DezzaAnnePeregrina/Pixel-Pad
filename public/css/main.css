@@ -27,8 +27,10 @@ h1,h2,h3,h4,h5.h6{
     border-radius: 2rem;
 }
 
-.home{
-
+@media(min-width: 1200px){
+    .home{
+        background: url('../img/human-1') left bottom no repeat,;
+    }
 }
 
 .home-title::before{
