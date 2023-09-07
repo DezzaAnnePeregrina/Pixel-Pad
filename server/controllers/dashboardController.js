@@ -54,7 +54,7 @@ exports.dashboard = async (req,res) =>{
  * Get View Specific Note
  */
 exports.dashboardViewNote = async(req,res) =>{
-    const note = await Note.findById({_id: req.params.id})
+    const note = await Note.findById({ _id: req.params.id})
     .where({user: req.user.id}).lean()
 
     if(note){
@@ -63,7 +63,7 @@ exports.dashboardViewNote = async(req,res) =>{
             note,
             layout: '../views/layouts/dashboard'})
     } else{
-        res.render('Something went wrong.')
+        res.send('Something went wrong.')
     }
 }
 
@@ -74,12 +74,49 @@ exports.dashboardViewNote = async(req,res) =>{
 exports.dashboardUpdateNote = async(req,res) =>{
     try{
         await Note.findOneAndUpdate(
-            {_id: req.params.id},
+            { _id: req.params.id },
             { title: req.body.title, body: req.body.body
             })
             .where({ user: req.user.id})
             res.redirect('/dashboard')
     } catch(err){
+        console.log(err)
+    }
+}
+
+
+/**
+ * Delete Specific Note
+ */
+exports.dashboardDeleteNote = async(req,res) => {
+    try{
+        await Note.deleteOne({_id: req.params.id }).where({user:req.user.id})
+        res.redirect('/dashboard')
+    } catch (err){
+        console.log(err)
+    }
+}
+
+
+/**
+ * Add Note
+ */
+exports.dashboardAddNote = async(req,res) =>{
+    res.render('dashboard/add', {
+        layout: '../views/layouts/dashboard'
+    })
+}
+
+
+/**
+ * Add Note Submit
+ */
+exports.dashboardAddNoteSubmit = async(req,res) =>{
+    try{
+        req.body.user = req.user.id
+        await Note.create(req.body)
+        res.redirect('/dashboard')
+    } catch (err){
         console.log(err)
     }
 }
