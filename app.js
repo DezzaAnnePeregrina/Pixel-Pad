@@ -15,7 +15,8 @@ app.use(session({
     saveUninitialized: true,
     store: MongoStore.create({
         mongoUrl: process.env.MongoDB_URI
-    })
+    }),
+    cookie: { maxAge: new Date(Date.now() + (3600000))} // cookie expires in 7 days
 }))
 
 app.use(passport.initialize())
