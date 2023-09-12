@@ -4,7 +4,7 @@
 exports.homepage = async (req,res) =>{
 
     const locals = {
-        title : 'Notes App',
+        title : 'Pixel Pad',
         description : 'Simple Notes App'
     }
     res.render('index',{locals,
